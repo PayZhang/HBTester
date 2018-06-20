@@ -1,0 +1,11 @@
+F:\CSharpTest\HuobiMarketData\HuobiMarketData\bin\Debug\HuobiMarketData.exe.config
+F:\CSharpTest\HuobiMarketData\HuobiMarketData\bin\Debug\HuobiMarketData.exe
+F:\CSharpTest\HuobiMarketData\HuobiMarketData\bin\Debug\HuobiMarketData.pdb
+F:\CSharpTest\HuobiMarketData\HuobiMarketData\bin\Debug\HuoBiApi.dll
+F:\CSharpTest\HuobiMarketData\HuobiMarketData\bin\Debug\Newtonsoft.Json.dll
+F:\CSharpTest\HuobiMarketData\HuobiMarketData\bin\Debug\Newtonsoft.Json.xml
+F:\CSharpTest\HuobiMarketData\HuobiMarketData\obj\Debug\HuobiMarketData.csprojAssemblyReference.cache
+F:\CSharpTest\HuobiMarketData\HuobiMarketData\obj\Debug\HuobiMarketData.csproj.CoreCompileInputs.cache
+F:\CSharpTest\HuobiMarketData\HuobiMarketData\obj\Debug\HuobiMarketData.csproj.CopyComplete
+F:\CSharpTest\HuobiMarketData\HuobiMarketData\obj\Debug\HuobiMarketData.exe
+F:\CSharpTest\HuobiMarketData\HuobiMarketData\obj\Debug\HuobiMarketData.pdb
