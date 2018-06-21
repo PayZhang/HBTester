@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -12,8 +13,11 @@ namespace HuobiMarketData
 {
     class Program
     {
+        static Dictionary<string, TickData> tickDatas;
+        static Thread thread;
         static void Main(string[] args)
         {
+            tickDatas = new Dictionary<string, TickData>();
             HuobiMarket market = new HuobiMarket();
             market.OnMessage += TickUpdate;
             market.OnConnecteed += HBConnected;
@@ -26,13 +30,30 @@ namespace HuobiMarketData
             {
                 Console.WriteLine(ex.Message);
             }
-            string str = "market.btcusdt.depth.step0";
-            market.Subscribe(str, "33233011");
+            List<string> symbols = new List<string>() { "btcusdt", "eosbtc", "eosusdt" };
+            foreach (var item in symbols)
+            {
+                tickDatas[item] = new TickData();
+                string str = "market." + item +".depth.step0";
+                market.Subscribe(str, "33233011");
+            }
+
+            //thread = new Thread(new ThreadStart(RecordeDatas));
 
 
+            Console.ReadLine();
+        }
 
-
-            Thread.Sleep(30000);
+        private static void RecordeDatas()
+        {
+            foreach (var item in tickDatas)
+            {
+                string currentpath = Environment.CurrentDirectory + @"\" + item + ".txt";
+                using (StreamWriter sw = new StreamWriter(currentpath, true))
+                {
+                    sw.WriteLine()
+                }
+            }
         }
 
         static void HBConnected(object sender, ConnectedEventArgs args)
@@ -46,8 +67,6 @@ namespace HuobiMarketData
         static private void TickUpdate(object sender, HuoBiMessageReceivedEventArgs args)
         {
             var msg = args.Message;
-            TickData quote = new TickData();
-            quote.UpdateTime = DateTime.Now;
             try
             {
                 if (msg.Contains("bid"))
@@ -55,11 +74,16 @@ namespace HuobiMarketData
                     HuoBiTick tick;
                     int tickCount = 0;
                     JObject jo = (JObject)JsonConvert.DeserializeObject(msg);
+                    string symbol = jo["ch"].ToString().Split('.')[1];
                     tick = JsonConvert.DeserializeObject<HuoBiTick>(jo["tick"].ToString());
+
+                    if (!tickDatas.TryGetValue(symbol, out TickData quote))
+                        quote = new TickData();
 
                     List<string> list = msg.Split(':').ToList();
                     List<string> listSymbol = list[1].Split('.').ToList();
 
+                    quote.UpdateTime = DateTime.Now;
                     quote.Exchange = "HB";
                     quote.BestBid = (decimal)tick.bids[0][0];
                     quote.BestBidQuantity = (decimal)tick.bids[0][1];
@@ -67,13 +91,9 @@ namespace HuobiMarketData
                     quote.BestAskQuantity = (decimal)tick.asks[0][1];
 
                     if (tick.asks.Count > 10)
-                    {
                         tickCount = 10;
-                    }
                     else
-                    {
                         tickCount = tick.asks.Count;
-                    }
                     quote.AskPriceQueue = new decimal[tickCount];
                     quote.AskQuantityQueue = new decimal[tickCount];
                     quote.AskPriceQueueCount = tickCount;
@@ -92,7 +112,9 @@ namespace HuobiMarketData
 
                     //var instrument = instrumentList.Where(x => x.Symbol == symbolDict[listSymbol[1]]).FirstOrDefault();
                     quote.InstrumentId = 0;
-                    quote.Symbol = "btcusdt";
+                    quote.Symbol = symbol;
+
+                    tickDatas[symbol] = quote;
 
                     Console.WriteLine("TickData > Symbol : " + quote.Symbol + ", BestBid : " + quote.BestBid + ", BestAsk : " + quote.BestAsk);
                 }

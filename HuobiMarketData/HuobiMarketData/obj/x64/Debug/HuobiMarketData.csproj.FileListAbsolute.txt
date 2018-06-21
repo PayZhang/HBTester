@@ -9,5 +9,4 @@ F:\CSharpTest\HuobiMarketData\HuobiMarketData\obj\x64\Debug\HuobiMarketData.cspr
 F:\CSharpTest\HuobiMarketData\HuobiMarketData\obj\x64\Debug\HuobiMarketData.exe
 F:\CSharpTest\HuobiMarketData\HuobiMarketData\obj\x64\Debug\HuobiMarketData.pdb
 F:\CSharpTest\HuobiMarketData\HuobiMarketData\bin\x64\Debug\WebSocket4Net.dll
-F:\CSharpTest\HuobiMarketData\HuobiMarketData\obj\x64\Debug\HuobiMarketData.csprojAssemblyReference.cache
 F:\CSharpTest\HuobiMarketData\HuobiMarketData\bin\x64\Debug\SuperSocket.ClientEngine.dll
